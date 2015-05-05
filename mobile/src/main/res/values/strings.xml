@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Elementry</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="speech_prompt">Start Recording</string>
+    <string name="speech_not_supported">Speech is not supported</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RecordButton">
+        <attr name="img_loading" format="reference"/>
+        <attr name="img_recording" format="reference"/>
+        <attr name="img_paused" format="reference" />
+    </declare-styleable>
+</resources>
