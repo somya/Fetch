@@ -19,8 +19,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.ibm.watson.elementry.model.Keyword;
+import com.ibm.watson.elementry.service.KeywordService;
 import com.ibm.watson.elementry.view.KeywordListItemView;
 import com.ibm.watson.elementry.widget.RecordButton;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +112,7 @@ public class KeywordListFragment extends Fragment
 				public void onError( final int error )
 				{
 					Log.e( "MainActivityFragment", "Error in onError: " + error );
+					stopRecording();
 				}
 
 				@Override
@@ -120,6 +125,25 @@ public class KeywordListFragment extends Fragment
 					if ( null != allRecongnitions && allRecongnitions.size() > 0 )
 					{
 						String s = allRecongnitions.get( 0 ); // highest prob match
+
+						KeywordService keywordService = new KeywordService();
+						keywordService.getKeywordData( s, new Callback<List<Keyword>>() {
+							                               @Override
+							                               public void success(
+								                               final List<Keyword> keywords,
+								                               final Response response
+							                               )
+							                               {
+								                               m_keywordAdapter.setKeywords(keywords);
+							                               }
+
+							                               @Override
+							                               public void failure( final RetrofitError error )
+							                               {
+
+							                               }
+						                               } );
+
 						Log.d( "MainActivityFragment", String.format( "onResults : s = %s", s ) );
 					}
 				}
@@ -152,8 +176,13 @@ public class KeywordListFragment extends Fragment
 
 	private void stopRecording()
 	{
-		m_speechRecognizer.cancel();
-		m_speechRecognizer.destroy();
+		if (m_speechRecognizer != null)
+		{
+			m_speechRecognizer.stopListening();
+			m_speechRecognizer.cancel();
+			m_speechRecognizer.destroy();
+		}
+		m_speechRecognizer = null;
 		isRecording = false;
 	}
 
@@ -198,6 +227,7 @@ public class KeywordListFragment extends Fragment
 	)
 	{
 		super.onViewCreated( view, savedInstanceState );
+		m_recButton.setStatus( RecordButton.Status.Paused );
 
 		m_keywordAdapter = new KeywordAdapter( getActivity() );
 		m_keywordRecycleView.setAdapter( m_keywordAdapter );
@@ -229,7 +259,7 @@ public class KeywordListFragment extends Fragment
 
 	private class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.ViewHolder>
 	{
-		private List<Keyword> m_lobbies = new ArrayList<>();
+		private List<Keyword> m_keywords = new ArrayList<>();
 		Context m_context;
 
 		private KeywordAdapter( final Context context )
@@ -237,15 +267,15 @@ public class KeywordListFragment extends Fragment
 			m_context = context;
 		}
 
-		public void setLobbies( final List<Keyword> lobbies )
+		public void setKeywords( final List<Keyword> keywords )
 		{
-			m_lobbies = lobbies;
+			m_keywords = keywords;
 			notifyDataSetChanged();
 		}
 
-		public List<Keyword> getLobbies()
+		public List<Keyword> getKeywords()
 		{
-			return m_lobbies;
+			return m_keywords;
 		}
 
 		// Provide a reference to the views for each data item
@@ -285,7 +315,7 @@ public class KeywordListFragment extends Fragment
 		@Override
 		public void onBindViewHolder( final ViewHolder viewHolder, final int i )
 		{
-			viewHolder.m_keywordListItemView.setKeyword( m_lobbies.get( i ) );
+			viewHolder.m_keywordListItemView.setKeyword( m_keywords.get( i ) );
 		}
 
 		@Override
@@ -297,7 +327,7 @@ public class KeywordListFragment extends Fragment
 		@Override
 		public int getItemCount()
 		{
-			return m_lobbies.size();
+			return m_keywords.size();
 		}
 
 

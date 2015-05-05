@@ -90,7 +90,7 @@ public class RecordButton extends RelativeLayout
 	public void setStatus(Status status)
 	{
 		m_status = status;
-		setEnabled( false );
+//		setEnabled( false );
 		switch ( status )
 		{
 			case Loading:

@@ -63,7 +63,7 @@ public class KeywordListItemView extends RelativeLayout
 
 		if ( StringUtils.isNotEmpty( keyword.image_url ))
 		{
-			Picasso.with( getContext() ).load( keyword.image_url ).centerCrop().fit().into( m_gameImage );
+			Picasso.with( getContext() ).load( keyword.image_url ).into( m_gameImage );
 		}
 
 		m_gameName.setText( keyword.text);
