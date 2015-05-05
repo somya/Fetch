@@ -1,13 +1,15 @@
 package com.ibm.watson.elementry;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,27 +18,33 @@ import android.widget.EditText;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import com.ibm.watson.elementry.model.Keyword;
+import com.ibm.watson.elementry.view.KeywordListItemView;
 import com.ibm.watson.elementry.widget.RecordButton;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment
+public class KeywordListFragment extends Fragment
 {
 	private static final String LOG_TAG = "MainActivityFragment";
 	@InjectView( R.id.btn_rec_pause ) RecordButton m_recButton;
 	@InjectView( R.id.txt_title )     EditText     m_title;
 
+	@InjectView( R.id.list_keywords ) public RecyclerView m_keywordRecycleView;
+
 
 	private final int REQ_CODE_SPEECH_INPUT = 100;
 
 	boolean isRecording = false;
-	private MediaRecorder    mRecorder;
-	private SpeechRecognizer m_speechRecognizer;
+	private SpeechRecognizer    m_speechRecognizer;
+	private KeywordAdapter      m_keywordAdapter;
+	private LinearLayoutManager mLayoutManager;
 
 	@OnClick( R.id.btn_rec_pause )
 	public void toggleAudioRecording()
@@ -46,14 +54,11 @@ public class MainActivityFragment extends Fragment
 		{
 			// Start Recording
 			startRecording();
-
-
 		}
 		else
 		{
 			// Stop Recording
 			stopRecording();
-
 		}
 	}
 
@@ -147,9 +152,6 @@ public class MainActivityFragment extends Fragment
 
 	private void stopRecording()
 	{
-		//		mRecorder.stop();
-		//		mRecorder.release();
-		//		mRecorder = null;
 		m_speechRecognizer.cancel();
 		m_speechRecognizer.destroy();
 		isRecording = false;
@@ -172,41 +174,9 @@ public class MainActivityFragment extends Fragment
 		return intent;
 	}
 
-	/**
-	 * Receiving speech input
-	 */
-	@Override
-	public void onActivityResult( int requestCode, int resultCode, Intent data )
-	{
-		super.onActivityResult( requestCode, resultCode, data );
-
-		switch ( requestCode )
-		{
-			case REQ_CODE_SPEECH_INPUT:
-			{
-				if ( resultCode == Activity.RESULT_OK && null != data )
-				{
-
-					Log.d(
-						"MainActivityFragment", String.format(
-							"onActivityResult : data = %s", data
-						)
-					);
-					ArrayList<String> result = data.getStringArrayListExtra( RecognizerIntent.EXTRA_RESULTS );
-					final String s = result.get( 0 );
 
 
-					//					txtSpeechInput.setText( s );
-					//					promptSpeechInput();
-					Log.d( "MainActivityFragment", String.format( "s : s = %s", s ) );
-				}
-				break;
-			}
-
-		}
-	}
-
-	public MainActivityFragment()
+	public KeywordListFragment()
 	{
 	}
 
@@ -220,6 +190,22 @@ public class MainActivityFragment extends Fragment
 		return view;
 	}
 
+	@Override
+	public void onViewCreated(
+		final View view,
+		@Nullable
+		final Bundle savedInstanceState
+	)
+	{
+		super.onViewCreated( view, savedInstanceState );
+
+		m_keywordAdapter = new KeywordAdapter( getActivity() );
+		m_keywordRecycleView.setAdapter( m_keywordAdapter );
+
+		mLayoutManager = new LinearLayoutManager( getActivity() );
+		m_keywordRecycleView.setLayoutManager( mLayoutManager );
+
+	}
 
 	@Override
 	public void onDestroyView()
@@ -239,5 +225,81 @@ public class MainActivityFragment extends Fragment
 		{
 			stopRecording();
 		}
+	}
+
+	private class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.ViewHolder>
+	{
+		private List<Keyword> m_lobbies = new ArrayList<>();
+		Context m_context;
+
+		private KeywordAdapter( final Context context )
+		{
+			m_context = context;
+		}
+
+		public void setLobbies( final List<Keyword> lobbies )
+		{
+			m_lobbies = lobbies;
+			notifyDataSetChanged();
+		}
+
+		public List<Keyword> getLobbies()
+		{
+			return m_lobbies;
+		}
+
+		// Provide a reference to the views for each data item
+		// Complex data items may need more than one view per item, and
+		// you provide access to all the views for a data item in a view holder
+		public class ViewHolder extends RecyclerView.ViewHolder
+		{
+			// each data item is just a string in this case
+			public KeywordListItemView m_keywordListItemView;
+
+			public ViewHolder( final KeywordListItemView keywordListItemView )
+			{
+				super( keywordListItemView );
+				m_keywordListItemView = keywordListItemView;
+				m_keywordListItemView.setOnClickListener(
+					new View.OnClickListener()
+					{
+						@Override
+						public void onClick( final View v )
+						{
+							//							Navigator.ToKeyword( keywordListItemView.getKeyword().getId
+							// () );
+						}
+					}
+				);
+			}
+		}
+
+		@Override
+		public ViewHolder onCreateViewHolder(
+			final ViewGroup viewGroup, final int i
+		)
+		{
+			return new ViewHolder( new KeywordListItemView( m_context ) );
+		}
+
+		@Override
+		public void onBindViewHolder( final ViewHolder viewHolder, final int i )
+		{
+			viewHolder.m_keywordListItemView.setKeyword( m_lobbies.get( i ) );
+		}
+
+		@Override
+		public long getItemId( final int position )
+		{
+			return position;
+		}
+
+		@Override
+		public int getItemCount()
+		{
+			return m_lobbies.size();
+		}
+
+
 	}
 }

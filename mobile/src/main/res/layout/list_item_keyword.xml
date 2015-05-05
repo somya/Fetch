@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+    <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:id="@+id/img_game"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+    <LinearLayout
+            android:layout_toRightOf="@id/img_game"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent" android:layout_height="96dp" android:orientation="vertical">
+
+
+        <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="Destiny | DST"
+                android:id="@+id/txt_game_name"/>
+
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="This is some random text that is about the game that is about to be played and I love so so so so much"
+                android:id="@+id/txt_description"/>
+
+    </LinearLayout>
+
+    <View
+            android:id="@+id/seperator"
+            android:layout_below="@id/img_game"
+            android:layout_width="match_parent" android:layout_height="1px" android:background="@android:color/darker_gray" />
+
+
+    <LinearLayout
+            android:id="@+id/layout_lobby_info"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_below="@id/seperator"
+            >
+
+        <TextView
+                android:layout_width="96dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:gravity="center"
+                android:background="@android:color/darker_gray"
+                tools:text="XBOX"
+                android:id="@+id/txt_platform" android:layout_gravity="center_vertical"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_marginLeft="16dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="HARDCORE"
+                android:id="@+id/txt_gamer_style" android:layout_gravity="center_vertical"/>
+
+
+
+        <TextView
+                android:id="@+id/txt_game_time"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:gravity="center"
+                android:textStyle="bold"
+                tools:text="17 mins"
+                android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <View
+            android:id="@+id/seperator2"
+            android:layout_below="@id/layout_lobby_info"
+            android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
+
+</RelativeLayout>
