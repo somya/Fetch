@@ -214,7 +214,7 @@ public class KeywordListFragment extends Fragment
 		LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
 	)
 	{
-		final View view = inflater.inflate( R.layout.fragment_main, container, false );
+		final View view = inflater.inflate( R.layout.fragment_keyword_list, container, false );
 		ButterKnife.inject( this, view );
 		return view;
 	}

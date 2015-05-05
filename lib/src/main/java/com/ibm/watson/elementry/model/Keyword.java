@@ -15,11 +15,4 @@ public class Keyword
 	public String description;
 	public List<KeywordContent> content;
 
-	public static class KeywordContent
-	{
-		public String url;
-		public String type;
-		public String image_url;
-		public String headline;
-	}
 }
