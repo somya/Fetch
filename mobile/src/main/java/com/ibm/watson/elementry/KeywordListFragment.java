@@ -49,6 +49,7 @@ public class KeywordListFragment extends Fragment
 	private SpeechRecognizer    m_speechRecognizer;
 	private KeywordAdapter      m_keywordAdapter;
 	private LinearLayoutManager mLayoutManager;
+	private KeywordService m_keywordService = null;
 
 	@OnClick( R.id.btn_rec_pause )
 	public void toggleAudioRecording()
@@ -81,13 +82,13 @@ public class KeywordListFragment extends Fragment
 				@Override
 				public void onReadyForSpeech( final Bundle params )
 				{
-
+					m_recButton.setStatus( RecordButton.Status.Recording );
 				}
 
 				@Override
 				public void onBeginningOfSpeech()
 				{
-					m_recButton.setStatus( RecordButton.Status.Recording );
+
 				}
 
 				@Override
@@ -126,23 +127,7 @@ public class KeywordListFragment extends Fragment
 					{
 						String s = allRecongnitions.get( 0 ); // highest prob match
 
-						KeywordService keywordService = new KeywordService();
-						keywordService.getKeywordData( s, new Callback<List<Keyword>>() {
-							                               @Override
-							                               public void success(
-								                               final List<Keyword> keywords,
-								                               final Response response
-							                               )
-							                               {
-								                               m_keywordAdapter.setKeywords(keywords);
-							                               }
-
-							                               @Override
-							                               public void failure( final RetrofitError error )
-							                               {
-
-							                               }
-						                               } );
+						loadKeywordData( s );
 
 						Log.d( "MainActivityFragment", String.format( "onResults : s = %s", s ) );
 					}
@@ -174,9 +159,31 @@ public class KeywordListFragment extends Fragment
 		m_speechRecognizer.startListening( getIntentForSpeech() );
 	}
 
+	private void loadKeywordData( final String s )
+	{
+		m_keywordService.getKeywordData(
+		s, new Callback<List<Keyword>>()
+		{
+			@Override
+			public void success(
+				final List<Keyword> keywords, final Response response
+			)
+			{
+				m_keywordAdapter.setKeywords( keywords );
+			}
+
+			@Override
+			public void failure( final RetrofitError error )
+			{
+				Log.e( "KeywordListFragment", "Error in failure ([error])", error.getCause() );
+			}
+		}
+	);
+	}
+
 	private void stopRecording()
 	{
-		if (m_speechRecognizer != null)
+		if ( m_speechRecognizer != null )
 		{
 			m_speechRecognizer.stopListening();
 			m_speechRecognizer.cancel();
@@ -204,9 +211,18 @@ public class KeywordListFragment extends Fragment
 	}
 
 
-
 	public KeywordListFragment()
 	{
+	}
+
+	@Override
+	public void onCreate(
+		@Nullable
+		final Bundle savedInstanceState
+	)
+	{
+		super.onCreate( savedInstanceState );
+		m_keywordService = new KeywordService();
 	}
 
 	@Override
@@ -235,6 +251,7 @@ public class KeywordListFragment extends Fragment
 		mLayoutManager = new LinearLayoutManager( getActivity() );
 		m_keywordRecycleView.setLayoutManager( mLayoutManager );
 
+		loadKeywordData("IBM Watson");
 	}
 
 	@Override
@@ -259,7 +276,8 @@ public class KeywordListFragment extends Fragment
 
 	private class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.ViewHolder>
 	{
-		private List<Keyword> m_keywords = new ArrayList<>();
+		public static final String        FRAGMENT_KEYWORD_DETAILS = "FRAGMENT_KEYWORD_DETAILS";
+		private             List<Keyword> m_keywords               = new ArrayList<>();
 		Context m_context;
 
 		private KeywordAdapter( final Context context )
@@ -296,8 +314,11 @@ public class KeywordListFragment extends Fragment
 						@Override
 						public void onClick( final View v )
 						{
-							//							Navigator.ToKeyword( keywordListItemView.getKeyword().getId
-							// () );
+							getActivity().getSupportFragmentManager().beginTransaction().replace(
+								R.id.layout_container,
+								KeywordDetailFragment.newInstance( m_keywordListItemView.getKeyword() ),
+								FRAGMENT_KEYWORD_DETAILS
+							).addToBackStack( FRAGMENT_KEYWORD_DETAILS ).commit();
 						}
 					}
 				);

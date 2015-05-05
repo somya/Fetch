@@ -17,19 +17,21 @@
 
     <EditText
             android:id="@+id/txt_title"
+            android:elevation="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
 
     <com.ibm.watson.elementry.widget.RecordButton
+
             android:id="@+id/btn_rec_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            app:img_loading="@android:drawable/ic_media_play"
-            app:img_recording="@android:drawable/ic_media_play"
-            app:img_paused="@android:drawable/ic_media_pause"
+            app:img_loading="@drawable/ico_record"
+            app:img_recording="@drawable/ico_record"
+            app:img_paused="@drawable/ico_pause"
             />
 
 

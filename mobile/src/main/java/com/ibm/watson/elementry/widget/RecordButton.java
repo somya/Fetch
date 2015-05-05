@@ -21,8 +21,8 @@ public class RecordButton extends RelativeLayout
 	private TextView    m_buttonText;
 	private String      m_text;
 	private ImageView   m_statusImage;
-	private int         m_resRecording;
-	private int         m_resPaused;
+	private int         m_resRecord;
+	private int         m_resPause;
 	private int         m_resLoading;
 
 	Status m_status;
@@ -59,8 +59,8 @@ public class RecordButton extends RelativeLayout
 		TypedArray a = getContext().obtainStyledAttributes( attrs, R.styleable.RecordButton );
 		try {
 			m_resLoading = a.getResourceId( R.styleable.RecordButton_img_loading, 0 );
-			m_resRecording = a.getResourceId( R.styleable.RecordButton_img_recording, 0 );
-			m_resPaused = a.getResourceId( R.styleable.RecordButton_img_paused, 0 );
+			m_resRecord = a.getResourceId( R.styleable.RecordButton_img_recording, 0 );
+			m_resPause = a.getResourceId( R.styleable.RecordButton_img_paused, 0 );
 		} finally {
 			a.recycle();
 		}
@@ -75,8 +75,8 @@ public class RecordButton extends RelativeLayout
 		m_statusImage = (ImageView) view.findViewById( R.id.img_status );
 
 		m_progressBar.getIndeterminateDrawable().setColorFilter(
-			getResources().getColor(R.color.border_grey),
-			android.graphics.PorterDuff.Mode.SRC_IN);
+			getResources().getColor( R.color.border_grey ), android.graphics.PorterDuff.Mode.SRC_IN
+		);
 
 
 //		m_buttonText.setText( m_text );
@@ -100,11 +100,11 @@ public class RecordButton extends RelativeLayout
 				break;
 			case Recording:
 				m_progressBar.setVisibility( GONE );
-				m_statusImage.setImageResource( m_resPaused );
+				m_statusImage.setImageResource( m_resPause );
 				break;
 			case Paused:
 				m_progressBar.setVisibility( GONE );
-				m_statusImage.setImageResource( m_resRecording );
+				m_statusImage.setImageResource( m_resRecord );
 				m_buttonText.setTextColor( getResources().getColor( R.color.red ) );
 				setEnabled( true ); // Only enable click on error
 				break;

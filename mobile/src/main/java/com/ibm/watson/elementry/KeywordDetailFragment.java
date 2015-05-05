@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.google.gson.Gson;
 import com.ibm.watson.elementry.model.Keyword;
 import com.ibm.watson.elementry.view.KeywordContentView;
 
@@ -20,7 +21,8 @@ import com.ibm.watson.elementry.view.KeywordContentView;
  */
 public class KeywordDetailFragment extends Fragment
 {
-	private static final String LOG_TAG = "KeywordDetailFragment";
+	private static final String LOG_TAG     = "KeywordDetailFragment";
+	public static final  String ARG_KEYWORD = "ARG_KEYWORD";
 
 	@InjectView( R.id.list_keywords ) public RecyclerView m_keywordRecycleView;
 
@@ -32,9 +34,31 @@ public class KeywordDetailFragment extends Fragment
 	private KeywordDetailAdapter m_keywordAdapter;
 	private LinearLayoutManager  mLayoutManager;
 
+	public static KeywordDetailFragment newInstance( final Keyword keyword )
+	{
+		final KeywordDetailFragment keywordDetailFragment = new KeywordDetailFragment();
+		final Bundle args = new Bundle();
+		args.putString( ARG_KEYWORD, ( new Gson() ).toJson( keyword ) );
+		keywordDetailFragment.setArguments( args );
+		return keywordDetailFragment;
+	}
+
 
 	public KeywordDetailFragment()
 	{
+	}
+
+	@Override
+	public void onCreate(
+		@Nullable
+		final Bundle savedInstanceState
+	)
+	{
+		if ( getArguments() != null && getArguments().containsKey(ARG_KEYWORD) )
+		{
+			m_keyword = (new Gson()).fromJson( getArguments().getString( ARG_KEYWORD ), Keyword.class );
+		}
+		super.onCreate( savedInstanceState );
 	}
 
 	@Override
@@ -42,7 +66,7 @@ public class KeywordDetailFragment extends Fragment
 		LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
 	)
 	{
-		final View view = inflater.inflate( R.layout.fragment_keyword_list, container, false );
+		final View view = inflater.inflate( R.layout.fragment_keyword_detail, container, false );
 		ButterKnife.inject( this, view );
 		return view;
 	}
@@ -61,6 +85,8 @@ public class KeywordDetailFragment extends Fragment
 
 		mLayoutManager = new LinearLayoutManager( getActivity() );
 		m_keywordRecycleView.setLayoutManager( mLayoutManager );
+
+		m_keywordAdapter.setKeyword( m_keyword );
 
 	}
 

@@ -15,16 +15,17 @@
 
         <ImageView
                 android:id="@+id/img_status"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:elevation="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:scaleType="centerInside"
-                android:src="@android:drawable/ic_media_play"
+                android:src="@drawable/ico_record"
                 />
 
         <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 style="?android:attr/progressBarStyle"
                 />
 

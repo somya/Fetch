@@ -1,12 +1,13 @@
 package com.ibm.watson.elementry;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends AppCompatActivity
+
 {
 
 	@Override
@@ -14,6 +15,12 @@ public class MainActivity extends ActionBarActivity
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_main );
+
+		getSupportFragmentManager().beginTransaction().add(
+			R.id.layout_container,
+			new KeywordListFragment(),
+			"FRAGMENT_KEYWORD_LIST"
+		).commit();
 	}
 
 
