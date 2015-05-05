@@ -1,97 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<!--<merge xmlns:android="http://schemas.android.com/apk/res/android"-->
+       <!--xmlns:tools="http://schemas.android.com/tools"-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="wrap_content">-->
 
-
-    <ImageView
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:id="@+id/img_game"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-
-    <LinearLayout
-            android:layout_toRightOf="@id/img_game"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent" android:layout_height="96dp" android:orientation="vertical">
-
-
-        <TextView
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                tools:text="Destiny | DST"
-                android:id="@+id/txt_game_name"/>
-
-
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:maxLines="2"
-                android:ellipsize="end"
-                tools:text="This is some random text that is about the game that is about to be played and I love so so so so much"
-                android:id="@+id/txt_description"/>
-
-    </LinearLayout>
-
-    <View
-            android:id="@+id/seperator"
-            android:layout_below="@id/img_game"
-            android:layout_width="match_parent" android:layout_height="1px" android:background="@android:color/darker_gray" />
-
-
-    <LinearLayout
-            android:id="@+id/layout_lobby_info"
-            android:orientation="horizontal"
+    <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_below="@id/seperator"
-            >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            card_view:cardCornerRadius="4dp" >
 
-        <TextView
-                android:layout_width="96dp"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:gravity="center"
-                android:background="@android:color/darker_gray"
-                tools:text="XBOX"
-                android:id="@+id/txt_platform" android:layout_gravity="center_vertical"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:layout_marginLeft="16dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                tools:text="HARDCORE"
-                android:id="@+id/txt_gamer_style" android:layout_gravity="center_vertical"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:tools="http://schemas.android.com/tools"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
 
 
+            <TextView
 
-        <TextView
-                android:id="@+id/txt_game_time"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:gravity="center"
-                android:textStyle="bold"
-                tools:text="17 mins"
-                android:layout_gravity="center_vertical"/>
-    </LinearLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    tools:text="Destiny | DST"
+                    android:gravity="center"
+                    android:elevation="5dp"
+                    android:maxLines="1"
+                    android:id="@+id/txt_keyword"/>
 
-    <View
-            android:id="@+id/seperator2"
-            android:layout_below="@id/layout_lobby_info"
-            android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/darker_gray" />
+            <View
+                    android:id="@+id/seperator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_main"/>
 
-</RelativeLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="105dp"
+                    android:orientation="horizontal">
+
+
+                <ImageView
+                        android:layout_width="105dp"
+                        android:layout_height="105dp"
+                        android:id="@+id/img_keyword"
+                        />
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:maxLines="4"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        tools:text="This is some random text that is about the game that is about to be played and I love so so so so much. This is some random text that is about the game that is about to be played and I love so so so so much"
+                        android:id="@+id/txt_description"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginBottom="11dp"
+                        />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+<!--</merge>-->

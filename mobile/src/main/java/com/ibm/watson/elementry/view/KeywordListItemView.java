@@ -1,9 +1,12 @@
 package com.ibm.watson.elementry.view;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,16 +20,13 @@ import com.squareup.picasso.Picasso;
 /**
  * TODO: document your custom view class.
  */
-public class KeywordListItemView extends RelativeLayout
+public class KeywordListItemView extends FrameLayout
 {
 
-	@InjectView( R.id.img_game )      ImageView m_gameImage;
-	@InjectView( R.id.txt_game_name ) TextView  m_gameName;
+	@InjectView( R.id.img_keyword ) ImageView m_keywordImage;
+	@InjectView( R.id.txt_keyword ) TextView  m_keywordText;
 
-	@InjectView( R.id.txt_game_time )   TextView m_gameTime;
 	@InjectView( R.id.txt_description ) TextView m_description;
-	@InjectView( R.id.txt_platform )    TextView m_platform;
-	@InjectView( R.id.txt_gamer_style ) TextView m_gamerStyle;
 	private                             Keyword  m_keyword;
 
 	public KeywordListItemView( Context context )
@@ -50,6 +50,8 @@ public class KeywordListItemView extends RelativeLayout
 	private void init( AttributeSet attrs, int defStyle )
 	{
 
+
+
 		final LayoutInflater infalter = (LayoutInflater) getContext().getSystemService(
 			Context.LAYOUT_INFLATER_SERVICE
 		);
@@ -63,10 +65,10 @@ public class KeywordListItemView extends RelativeLayout
 
 		if ( StringUtils.isNotEmpty( keyword.image_url ))
 		{
-			Picasso.with( getContext() ).load( keyword.image_url ).into( m_gameImage );
+			Picasso.with( getContext() ).load( keyword.image_url ).fit().into( m_keywordImage );
 		}
 
-		m_gameName.setText( keyword.text);
+		m_keywordText.setText( keyword.text );
 //		m_gameTime.setText( DateUtils.getRelativeTimeSpanString( getContext(), keyword.getStartTime().getTime() ) );
 		m_description.setText( keyword.description);
 //		m_platform.setText( GamePlatformUtils.labelResIdForPlatform( keyword.getPlatform()) );
